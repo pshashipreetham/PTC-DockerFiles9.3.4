@@ -1,0 +1,30 @@
+{
+  security {
+    {% if env_var("KEYSTORE", "false") == "true" %}
+      secret-provider = "com.thingworx.security.provider.keystore.KeyStoreProvider"
+      default-encryption-key-length = {{ env_var("DEFAULT_ENCRYPTION_KEY_LENGTH", "256") }}
+
+      keystore {
+        password-file-path = "{{ env_var("KEYSTORE_PASSWORD_FILE_PATH", "") }}"
+        password-file-name = "{{ env_var("KEYSTORE_PASSWORD_FILE_NAME", "keystore-password") }}"
+        path = "{{ env_var("KEYSTORE_FILE_PATH", "") }}"
+        name = "{{ env_var("KEYSTORE_FILE_NAME", "keystore") }}"
+      }
+    {% endif %}
+
+    {% if env_var("VAULT", "false") == "true" %}
+      secret-provider = "com.thingworx.security.provider.vault.VaultProvider"
+      default-encryption-key-length = {{ env_var("DEFAULT_ENCRYPTION_KEY_LENGTH", "256") }}
+
+      vault {
+        address = "{{ env_var("VAULT_ADDRESS", "") }}"
+        token-file-path = "{{ env_var("VAULT_TOKEN_FILE_PATH", "") }}"
+        token-file-name = "{{ env_var("VAULT_TOKEN_FILE_NAME", "vault-token") }}"
+        open-timeout = {{ env_var("VAULT_OPEN_TIMEOUT", "5") }}
+        read-timeout = {{ env_var("VAULT_READ_TIMEOUT", "30") }}
+        engine = "{{ env_var("VAULT_ENGINE", "kv") }}"
+        application-path = "{{ env_var("VAULT_APPLICATION_PATH", "") }}"
+      }
+    {% endif %}
+  }
+}
