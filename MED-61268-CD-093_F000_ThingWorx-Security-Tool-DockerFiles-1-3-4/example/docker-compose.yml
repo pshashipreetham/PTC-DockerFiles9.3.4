@@ -1,0 +1,17 @@
+version: '2.3'
+volumes:
+  storage:
+
+services:
+  secrets:
+    image: thingworx/security-tool:latest
+    environment:
+      - "KEYSTORE=true"
+      - "KEYSTORE_PASSWORD_FILE_PATH=/opt"
+      - "KEYSTORE_FILE_PATH=/SecureData"
+      - "KEYSTORE_PASSWORD=mykeystorepassword"
+      - "TWX_DATABASE_PASSWORD=abcd"
+      - "LS_PASSWORD=efgh"
+      - "CUSTOM_SECRET_LIST=encrypt.db.password:TWX_DATABASE_PASSWORD,encrypt.licensing.password:LS_PASSWORD"
+    volumes:
+      - storage:/SecureData
